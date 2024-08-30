@@ -8,25 +8,25 @@ import { SignUp } from './../auth/SignUp';
 
 export const MainRouter = createBrowserRouter([
   {
-    path:'/',
-    element:<Root/>,
-    errorElement: <ErrorPage/>,
-    children:[
+    path: '/',
+    element: <Root />,
+    errorElement: <ErrorPage />,
+    children: [
       {
-        path: '/home',
-        element: <Home/>
+        path: '/',
+        element: <Home />
       },
       {
         path: '/login',
-        element: <Login/>
+        element: <Login />
       },
       {
         path: '/signIn',
-        element: <SignIn/>
+        element: <SignIn />
       },
       {
         path: '/signUp',
-        element: <SignUp/>
+        element: <SignUp />
       },
     ]
   }
