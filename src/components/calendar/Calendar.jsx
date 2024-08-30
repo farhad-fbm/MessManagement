@@ -1,6 +1,7 @@
 
 import { useState } from 'react';
 import { HomeClock } from '../homeClock/HomeClock';
+import { Modal } from '../modal/Modal';
 
 const getDaysInMonth = (year, month) => {
   return new Array(new Date(year, month, 0).getDate())
@@ -38,7 +39,28 @@ export const Calendar = () => {
     setCurrentMonth(TD.getMonth() + 1);
     setSelectedDate(today);
   };
+  // ______________________________________________________________
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+  const handleDayClick = (dateStr) => {
+    const now = new Date();
+    // const currentHour = now.getHours();
+    const currentHour = 18;
+
+    const tomorrow = new Date(now);
+    tomorrow.setDate(now.getDate() + 1);
+    const tomorrowStr = `${tomorrow.getFullYear()}-${tomorrow.getMonth() + 1}-${tomorrow.getDate()}`;
+
+    // If it's after 6 PM and the user tries to select tomorrow's date, do nothing
+    setSelectedDate(dateStr);
+    if (currentHour >= 18 && dateStr === tomorrowStr) {
+      return alert('times up'); // Prevent modal from opening
+    }
+    console.log(dateStr);
+    openModal();
+  }
   return (
     <div className="">
 
@@ -66,7 +88,7 @@ export const Calendar = () => {
               return (
                 <div
                   key={day}
-                  onClick={() => setSelectedDate(dateStr)}
+                  onClick={() => handleDayClick(dateStr)}
                   className={`text-center py-2 cursor-pointer border rounded-lg ${bgColor}`}
                 >
                   {day}
@@ -84,6 +106,7 @@ export const Calendar = () => {
           </button>
         </div>
       </div>
+      <Modal isOpen={isModalOpen} onClose={closeModal} />
     </div>
   );
 };
