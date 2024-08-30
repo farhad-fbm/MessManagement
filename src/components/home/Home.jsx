@@ -1,4 +1,5 @@
 
+import { Accordion } from "../accordion/Accordion";
 import { DayCard } from "../dayCard/DayCard";
 import { HomeClock } from "../homeClock/HomeClock";
 
@@ -13,6 +14,10 @@ export const Home = () => {
           <div className="border">meal</div>
           <div className="border">bazar</div>
         </div>
+      </div>
+      <div className="flex gap-2 pt-8">
+        <Accordion />
+        <Accordion />
       </div>
     </div>
   )
