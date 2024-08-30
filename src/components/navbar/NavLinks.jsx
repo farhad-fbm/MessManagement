@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom"
 export const NavLinks = () => {
   const navs = [
     { name: 'Home', link: '/' },
+    { name: 'Calendar', link: '/calendar' },
     { name: 'Login', link: '/login' },
     { name: 'SignIn', link: '/signIn' },
     { name: 'SignUp', link: '/signUp' },
