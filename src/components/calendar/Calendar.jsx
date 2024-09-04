@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { HomeClock } from '../homeClock/HomeClock';
 import { Modal } from '../modal/Modal';
+import { bazarDate } from './bazarDate';
 
 const getDaysInMonth = (year, month) => {
   return new Array(new Date(year, month, 0).getDate())
@@ -65,11 +66,11 @@ export const Calendar = () => {
     <div className="">
 
       <div className=""><HomeClock /></div>
-      <div className="p-4 max-w-md mx-auto h-96">
-        <div className="flex justify-between">
-          <button className='p-6' onClick={() => updateMonth(-1)}>{'<'}</button>
+      <div className="p-4 mt-10 max-w-2xl mx-auto  border">
+        <div className="flex justify-between items-center">
+          <button className='p-4 text-6xl font-extrabold' onClick={() => updateMonth(-1)}>{'<'}</button>
           <p className="text-2xl font-bold mb-4">{monthNames[currentMonth - 1]} {currentYear}</p>
-          <button className='p-6' onClick={() => updateMonth(1)}>{'>'}</button>
+          <button className='p-4 text-6xl font-extrabold' onClick={() => updateMonth(1)}>{'>'}</button>
         </div>
         <div className="grid grid-cols-7 gap-1">
           {dayNames.map((day, idx) => (
@@ -89,9 +90,12 @@ export const Calendar = () => {
                 <div
                   key={day}
                   onClick={() => handleDayClick(dateStr)}
-                  className={`text-center py-2 cursor-pointer border rounded-lg ${bgColor}`}
+                  className={`text-center py-2 px-6 cursor-pointer border rounded-lg ${bgColor}`}
                 >
-                  {day}
+                  <p className='font-extrabold text-2xl'>{day}</p>
+                  <div className=" font-d text-sm">
+                    {day <= 15 ? <p>{bazarDate[day - 1]}</p> : <p>{bazarDate[day - 15 - 1]}</p>}
+                  </div>
                 </div>
               )
             })

@@ -1,3 +1,7 @@
+
+
+
+
 export const onMeals = [
   { id: 0, name: 'Arafat', meal: [1, 0, 0] },
   { id: 1, name: 'Sujon', meal: [0, 1, 1] },
