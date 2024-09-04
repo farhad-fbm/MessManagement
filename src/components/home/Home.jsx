@@ -16,8 +16,8 @@ export const Home = () => {
         </div>
       </div>
       <div className="flex gap-2 pt-8">
-        <Accordion />
-        <Accordion />
+        {/* <Accordion /> */}
+        {/* <Accordion /> */}
       </div>
     </div>
   )

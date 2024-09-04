@@ -1,3 +1,4 @@
+import MealTracker from "../dropDown/MealsDropDown"
 
 export const DayCard = () => {
   return (
@@ -7,7 +8,7 @@ export const DayCard = () => {
         <div className=" grid place-items-center text-9xl font-extrabold">07</div>
         <div className=" grid place-items-center text-4xl font-semibold">Tuesday</div>
         <div className=" flex items-end text-2xl font-semibold">
-          <pre> S:00      D:00      R:00 </pre>
+          <MealTracker />
         </div>
       </div>
     </div>
