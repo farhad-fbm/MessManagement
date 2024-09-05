@@ -1,8 +1,15 @@
 
+
+
+
+
+
+
 import { useState } from 'react';
-import { HomeClock } from '../homeClock/HomeClock';
 import { Modal } from '../modal/Modal';
-import { bazarDate } from './bazarDate';
+import { HomeClock } from './../home/homeClock/HomeClock';
+import { manager, bazarDate } from './../../lib/constants';
+import { todayUserMeals } from '../../lib/onMeals';
 
 const getDaysInMonth = (year, month) => {
   return new Array(new Date(year, month, 0).getDate())
@@ -94,8 +101,9 @@ export const Calendar = () => {
                 >
                   <p className='font-extrabold text-2xl'>{day}</p>
                   <div className=" font-d text-sm">
-                    {day <= 15 ? <p>{bazarDate[day - 1]}</p> : <p>{bazarDate[day - 15 - 1]}</p>}
+                    {day === 31 ? <p>*{manager}*</p> : (day <= 15) ? <p>{bazarDate[day - 1]}</p> : <p>{bazarDate[day - 15 - 1]}</p>}
                   </div>
+                  <div className="">{todayUserMeals[0]} {todayUserMeals[1]} {todayUserMeals[2]}</div>
                 </div>
               )
             })

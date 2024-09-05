@@ -1,4 +1,4 @@
-import { dayName, monthName } from "../calendar/todayData";
+import { dayName, monthName } from "../../lib/todayData";
 import DropDownContainer from "../dropDown/MealsDropDown"
 
 export const DayCard = () => {

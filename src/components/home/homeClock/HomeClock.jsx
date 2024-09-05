@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { updateClock } from "../../lib/todayTimes";
+import { updateClock } from "../../../lib/todayTimes";
+
 
 export const HomeClock = () => {
   const [time, setTime] = useState(updateClock());

@@ -6,8 +6,7 @@ export const NavLinks = () => {
     { name: 'Home', link: '/' },
     { name: 'Calendar', link: '/calendar' },
     { name: 'Login', link: '/login' },
-    { name: 'SignIn', link: '/signIn' },
-    { name: 'SignUp', link: '/signUp' },
+    { name: 'Register', link: '/register' },
   ]
   return (
     <>

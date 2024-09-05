@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
-import MealChecker from '../mealChecker/MealChecker';
+import MealChecker from './MealChecker';
 
 export const Modal = ({ isOpen, onClose }) => {
   if (!isOpen) return null; // Don't render if modal is not open

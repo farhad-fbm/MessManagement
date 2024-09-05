@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 
-import { Dinner, Lunch, Morning } from "./onMeals";
+import { todayDinner, todayLunch, todayMorning } from "../../lib/onMeals";
 import { useState, useEffect, useRef } from "react";
 
 const MealDropdown = ({ id, mealData, isOpen, onClick }) => {
@@ -62,19 +62,19 @@ const DropDownContainer = () => {
     <>
       <MealDropdown
         id="M"
-        mealData={Morning}
+        mealData={todayMorning}
         isOpen={openDropdown === "M"}
         onClick={handleDropdownClick}
       />
       <MealDropdown
         id="L"
-        mealData={Lunch}
+        mealData={todayLunch}
         isOpen={openDropdown === "L"}
         onClick={handleDropdownClick}
       />
       <MealDropdown
         id="D"
-        mealData={Dinner}
+        mealData={todayDinner}
         isOpen={openDropdown === "D"}
         onClick={handleDropdownClick}
       />

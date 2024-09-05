@@ -3,9 +3,8 @@ import { Root } from "../../Root"
 import { ErrorPage } from "../ErrorPage"
 import { Home } from "../home/Home"
 import { Login } from './../auth/Login';
-import { SignIn } from './../auth/SignIn';
-import { SignUp } from './../auth/SignUp';
 import { Calendar } from "../calendar/Calendar";
+import { Register } from "../auth/Register";
 
 export const MainRouter = createBrowserRouter([
   {
@@ -26,12 +25,8 @@ export const MainRouter = createBrowserRouter([
         element: <Login />
       },
       {
-        path: '/signIn',
-        element: <SignIn />
-      },
-      {
-        path: '/signUp',
-        element: <SignUp />
+        path: '/register',
+        element: <Register />
       },
     ]
   }
