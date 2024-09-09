@@ -1,10 +1,4 @@
 
-
-
-
-
-
-
 import { useState } from 'react';
 import { Modal } from '../modal/Modal';
 import { HomeClock } from './../home/homeClock/HomeClock';
