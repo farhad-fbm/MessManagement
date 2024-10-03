@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Modal } from '../modal/Modal';
 import { HomeClock } from './../home/homeClock/HomeClock';
-import { manager, bazarDate } from './../../lib/constants';
+import { manager, bazarDate, userMess } from './../../lib/constants';
 import { todayUserMeals } from '../../lib/onMeals';
 
 const getDaysInMonth = (year, month) => {
@@ -46,66 +46,91 @@ export const Calendar = () => {
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+
+  // ... [Other code remains unchanged]
+
   const handleDayClick = (dateStr) => {
     const now = new Date();
-    // const currentHour = now.getHours();
-    const currentHour = 18;
+    const currentHour = now.getHours(); // Get the current hour dynamically
 
-    const tomorrow = new Date(now);
-    tomorrow.setDate(now.getDate() + 1);
-    const tomorrowStr = `${tomorrow.getFullYear()}-${tomorrow.getMonth() + 1}-${tomorrow.getDate()}`;
+    const clickedDate = new Date(dateStr);
 
-    // If it's after 6 PM and the user tries to select tomorrow's date, do nothing
-    setSelectedDate(dateStr);
-    if (currentHour >= 18 && dateStr === tomorrowStr) {
-      return alert('times up'); // Prevent modal from opening
+    // Only open the modal if it's before 6 PM and the clicked day is after today
+    if (currentHour < 18 && clickedDate > now) {
+      setSelectedDate(dateStr);
+      openModal();
+    } else {
+      // Set the alert message and open the alert modal
+      setAlertMessage('Modal can only be opened before 6 PM for future dates');
+      setIsAlertOpen(true);
     }
-    console.log(dateStr);
-    openModal();
-  }
+  };
+  const closeAlertModal = () => {
+    setIsAlertOpen(false);
+  };
+
   return (
     <div className="">
 
-      <div className=""><HomeClock /></div>
-      <div className="p-4 mt-10 max-w-2xl mx-auto  border">
+      {/* <div className=""><HomeClock /></div> */}
+      <div className="p-4 mt-10 max-w-2xl mx-auto">
         <div className="flex justify-between items-center">
           <button className='p-4 text-6xl font-extrabold' onClick={() => updateMonth(-1)}>{'<'}</button>
           <p className="text-2xl font-bold mb-4">{monthNames[currentMonth - 1]} {currentYear}</p>
           <button className='p-4 text-6xl font-extrabold' onClick={() => updateMonth(1)}>{'>'}</button>
         </div>
-        <div className="grid grid-cols-7 gap-1">
+        <div className="grid grid-cols-7 grid-rows-6 gap-1 h-[60vh]">
+          {/* Render day names */}
           {dayNames.map((day, idx) => (
-            <div key={idx} className='text-center font-bold'>{day}</div>)
-          )}
-          {Array(firstDay).fill(null).map((_, i) => (
-            <div key={`empty-${i}`} className="text-center"></div>)
-          )}
+            <div key={idx} className="text-center font-bold">{day}</div>
+          ))}
 
-          {
-            daysInMonth.map(day => {
-              const dateStr = `${currentYear}-${currentMonth}-${day}`;
-              let bgColor = 'bg-white text-black';
-              if (dateStr === today) bgColor = 'bg-orange-500 text-black';
-              else if (dateStr === selectedDate) bgColor = 'bg-blue-500 text-white';
-              return (
-                <div
-                  key={day}
-                  onClick={() => handleDayClick(dateStr)}
-                  className={`text-center py-2 px-6 cursor-pointer border rounded-lg ${bgColor}`}
-                >
-                  <p className='font-extrabold text-2xl'>{day}</p>
-                  <div className=" font-d text-sm">
-                    {day === 31 ? <p>*{manager}*</p> : (day <= 15) ? <p>{bazarDate[day - 1]}</p> : <p>{bazarDate[day - 15 - 1]}</p>}
-                  </div>
-                  <div className="">{todayUserMeals[0]} {todayUserMeals[1]} {todayUserMeals[2]}</div>
+          {/* Render empty cells for days before the first day of the month */}
+          {Array(firstDay).fill(null).map((_, i) => (
+            <div key={`empty-${i}`} className="text-center"></div>
+          ))}
+
+          {/* Render days of the month */}
+          {daysInMonth.map(day => {
+            const dateStr = `${currentYear}-${currentMonth}-${day}`;
+            let bgColor = 'bg-white text-black';
+            if (dateStr === today) bgColor = 'bg-orange-500 text-black';
+            else if (dateStr === selectedDate) bgColor = 'bg-blue-500 text-white';
+
+            return (
+              <div
+                key={day}
+                onClick={() => handleDayClick(dateStr)}
+                className={`text-center py-2 px-6 cursor-pointer border rounded-lg ${bgColor} flex flex-col justify-center items-center`}
+              >
+                {/* Day number */}
+                <p className="font-extrabold text-2xl">{day}</p>
+
+                {/* Bazar date or manager for specific days */}
+                <div className={`font-bold text-[#001F3F] text-sm ${((day <= 15 && bazarDate[day - 1] === userMess) || (day > 15 && bazarDate[day - 15 - 1] === userMess)) ? 'bg-red-600 p-1 rounded-3xl' : ''}`}>
+                  {day === 31 ? (
+                    manager === userMess ? <p className='bg-red-600 p-1 rounded-3xl'>*Manager*</p> : null
+                  ) : (
+                    (day <= 15 && bazarDate[day - 1] === userMess) ? <p>Bazar</p> :
+                      (day > 15 && bazarDate[day - 15 - 1] === userMess) ? <p>Bazar</p> : null
+                  )}
                 </div>
-              )
-            })
-          }
+
+
+                {/* User meals */}
+                <div className="">
+                  {todayUserMeals[0]} {todayUserMeals[1]} {todayUserMeals[2]}
+                </div>
+              </div>
+            );
+          })}
         </div>
-        <div className="flex justify-center mt-4">
+        <div className="flex justify-center items-center mt-4">
           <button
-            className="px-4 py-2 bg-green-500 text-white rounded-lg"
+            className="px-4 py-2 bg-[#30372e] font-extrabold rounded-lg"
             onClick={handleGoToToday}
           >
             Go to Today
@@ -113,6 +138,33 @@ export const Calendar = () => {
         </div>
       </div>
       <Modal isOpen={isModalOpen} onClose={closeModal} />
+      {isAlertOpen && (
+        <AlertModal
+          message={alertMessage}
+          onClose={closeAlertModal}
+        />
+      )}
+    </div>
+  );
+};
+
+
+
+
+// _________________________________________________________________________________________
+
+const AlertModal = ({ onClose }) => {
+  return (
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="bg-white p-4 rounded shadow-lg">
+        <p>Modal can only be opened before 6 PM for future dates</p>
+        <button
+          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
+          onClick={onClose}
+        >
+          Close
+        </button>
+      </div>
     </div>
   );
 };

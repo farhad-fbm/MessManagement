@@ -9,7 +9,6 @@ export const NavLinks = () => {
     { name: 'Home', link: '/' },
     { name: 'Calendar', link: '/calendar' },
     !user && { name: 'Login', link: '/login' },
-    !user && { name: 'Register', link: '/register' },
   ]
   return (
     <>

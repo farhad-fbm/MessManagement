@@ -12,7 +12,7 @@ export const Home = () => {
       <HomeClock />
       <div className="md:grid grid-cols-[1fr_1.5fr] gap-1 px-1 pt-8 h-96" >
         <DayCard />
-        <div className="border w-full">
+        <div className="w-full">
           <div className="border">meal</div>
           <div className="border">bazar</div>
         </div>

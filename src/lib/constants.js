@@ -6,4 +6,4 @@ export const bazarDate = [
   "Hasan", "Opu", "Babul",
   "Canmiya", "Mehedi", 'Shihab'
 ]
-export const user = "Farhad";
+export const userMess = "Farhad";

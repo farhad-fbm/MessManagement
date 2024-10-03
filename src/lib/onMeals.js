@@ -1,4 +1,4 @@
-import { user } from "./constants";
+import { userMess } from "./constants";
 
 
 
@@ -30,7 +30,7 @@ todayMeals.forEach(({ id, name, meal }) => {
   if (meal[0] > 0) todayMorning.push({ id, name, meal: meal[0] });
   if (meal[1] > 0) todayLunch.push({ id, name, meal: meal[1] });
   if (meal[2] > 0) todayDinner.push({ id, name, meal: meal[2] });
-  if (name === user) todayUserMeals = meal;
+  if (name === userMess) todayUserMeals = meal;
 });
 
 export { todayMorning, todayLunch, todayDinner, todayUserMeals };

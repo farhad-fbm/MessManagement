@@ -128,9 +128,7 @@ export const Register = () => {
                 />
               </div>
               <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Email</span>
-                </label>
+                <span className="p-2">Email</span>
                 <input
                   onChange={e => setEmail(e.target.value)}
                   type="email"
