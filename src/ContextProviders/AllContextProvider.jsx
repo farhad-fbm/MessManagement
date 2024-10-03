@@ -1,16 +1,11 @@
 import { PropTypes } from 'prop-types';
-import { TodosContextProvider } from './TodosContextProvider';
-import { AuthContextProvider } from './AuthContexProvider';
-
-
+import { AuthProvider } from './AuthContextProvider';
 
 export const ALLContextProvider = ({ children }) => {
   return (
-    <AuthContextProvider>
-      <TodosContextProvider>
-        {children}
-      </TodosContextProvider>
-    </AuthContextProvider>
+    <AuthProvider>
+      {children}
+    </AuthProvider>
 
   )
 }
