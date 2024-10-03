@@ -5,6 +5,7 @@ import { Home } from "../home/Home"
 import { Login } from './../auth/Login';
 import { Calendar } from "../calendar/Calendar";
 import { Register } from "../auth/Register";
+import { PrivateRouter } from "./PrivateRouter";
 
 export const MainRouter = createBrowserRouter([
   {
@@ -18,7 +19,7 @@ export const MainRouter = createBrowserRouter([
       },
       {
         path: '/calendar',
-        element: <Calendar />
+        element: <PrivateRouter><Calendar /></PrivateRouter>
       },
       {
         path: '/login',

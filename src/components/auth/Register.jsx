@@ -97,20 +97,16 @@ export const Register = () => {
   return (
     <div>
       <Helmet>
-        <title>F-Planners | Register</title>
+        <title>Mess | Register</title>
       </Helmet>
-      <div className="hero min-h-screen bg-base-200 ">
-        <div className="hero-content flex-col py-40">
-          <div className="text-center ">
-            <h1 className="text-5xl font-bold">Register now!</h1>
-          </div>
-          <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+      <div className="w-full text-[#EAD8B1]">
+        <div className="hero-content flex-col pt-16">
+          <h1 className="text-5xl font-bold">Register now!</h1>
+          <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-[#001F3F]">
 
             <form ref={formRef} onSubmit={handleRegister} className="card-body">
               <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Name</span>
-                </label>
+                <span className="p-2">Name</span>
                 <input
                   onChange={e => setName(e.target.value)}
                   type="text"
@@ -121,9 +117,7 @@ export const Register = () => {
                 />
               </div>
               <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Image Url</span>
-                </label>
+                <span className="p-2">Image Url</span>
                 <input
                   onChange={e => setPhotoURL(e.target.value)}
                   type="text"
@@ -147,9 +141,7 @@ export const Register = () => {
                 />
               </div>
               <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Password</span>
-                </label>
+                <span className="p-2">Password</span>
                 <input
                   onChange={e => setPassword(e.target.value)}
                   type="password"

@@ -1,12 +1,15 @@
 /* eslint-disable no-unused-vars */
+import { useContext } from "react"
 import { NavLink } from "react-router-dom"
+import { AuthContext } from "../../ContextProviders/AuthContextProvider"
 
 export const NavLinks = () => {
+  const { user } = useContext(AuthContext);
   const navs = [
     { name: 'Home', link: '/' },
     { name: 'Calendar', link: '/calendar' },
-    { name: 'Login', link: '/login' },
-    { name: 'Register', link: '/register' },
+    !user && { name: 'Login', link: '/login' },
+    !user && { name: 'Register', link: '/register' },
   ]
   return (
     <>

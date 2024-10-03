@@ -22,7 +22,6 @@ export const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault();
 
-
     logInUser(email, password)
       .then(() => {
         formRef.current.reset();
@@ -79,21 +78,16 @@ export const Login = () => {
   return (
     <div>
       <Helmet>
-        <title>Tech-Shop | Login</title>
+        <title>Mess | Login</title>
       </Helmet>
       <div>
-        <div className="hero min-h-screen w-full md:bg-base-200 ">
-          <div className="hero-content flex-col py-40">
-            <div className="text-center ">
-              <h1 className="text-5xl font-bold">Login now!</h1>
-            </div>
-            <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-
+        <div className="w-full text-[#EAD8B1]">
+          <div className="hero-content flex-col pt-16">
+            <h1 className="text-5xl font-bold">Login now!</h1>
+            <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-[#001F3F]">
               <form ref={formRef} onSubmit={handleLogin} className="card-body">
                 <div className="form-control">
-                  <label className="label">
-                    <span className="label-text">Email</span>
-                  </label>
+                  <p className="p-2">Email</p>
                   <input
                     onChange={e => setEmail(e.target.value)}
                     name='email'
@@ -104,9 +98,7 @@ export const Login = () => {
                   />
                 </div>
                 <div className="form-control">
-                  <label className="label">
-                    <span className="label-text">Password</span>
-                  </label>
+                  <p className="p-2">Password</p>
                   <input
                     onChange={e => setPassword(e.target.value)}
                     type="password"
@@ -114,8 +106,8 @@ export const Login = () => {
                     className="input input-bordered"
                     required
                   />
-                  <label className="label">
-                    <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
+                  <label className="">
+                    <a href="#" className="mt-4 text-blue-600 cursor-pointer">Forgot password?</a>
                   </label>
                 </div>
                 <div className="form-control mt-6">
@@ -127,9 +119,9 @@ export const Login = () => {
                 <Link to='/register' className="p-2 text-blue-600 cursor-pointer" >Register</Link>
               </p>
             </div>
-            <div className="py-4 card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+            <div className="py-4 card flex-shrink-0 w-full max-w-sm shadow-2xl bg-[#001F3F]">
               <div className='text-center'>or</div>
-              <div onClick={handleGoogleLogin} className="cursor-pointer border rounded-lg w-72 mx-auto px-3 py-2 mt-2 flex items-center gap-2"><FcGoogle className='text-xl' /> Continue with Google</div>
+              <div onClick={handleGoogleLogin} className="cursor-pointer border rounded-lg border-[#EAD8B1] w-72 mx-auto px-3 py-2 mt-2 flex items-center gap-2"><FcGoogle className='text-xl' /> Continue with Google</div>
             </div>
           </div>
           <ToastContainer />
