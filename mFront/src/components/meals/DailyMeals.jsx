@@ -14,9 +14,7 @@ const DailyMeals = () => {
 
   const fetchDailyMeals = async () => {
     try {
-      console.log(`Fetching data for ${homeDate}/${homeMonth}/${homeYear}`);
       const res = await axios.get(`${backURL}/dailymeals/dailyAllMembersMeal/${homeDate}/${homeMonth}/${homeYear}`);
-      console.log('Response data:', res.data);
       setTodayMeals(Array.isArray(res.data) ? res.data : []);
     } catch (error) {
       console.error('Error fetching daily meals data:', error);

@@ -1,6 +1,7 @@
 
 // eslint-disable-next-line no-unused-vars
 import DailyMeals from "../meals/DailyMeals";
+import GetRecipe from "../recipes/GetRecipe";
 import { DayCard } from "./DayCard";
 import { HomeClock } from "./homeClock/HomeClock";
 import { MealInfo } from "./MealInfo";
@@ -17,6 +18,8 @@ export const Home = () => {
         <MealInfo />
       </div>
       <DailyMeals />
+
+      <GetRecipe/>
     </div>
   )
 }

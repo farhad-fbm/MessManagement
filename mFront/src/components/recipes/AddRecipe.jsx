@@ -11,10 +11,20 @@ const AddRecipe = () => {
   const [dinner, setDinner] = useState([]);
   const [description, setDescription] = useState('');
 
-  const handleAddRecipe = (type, recipe) => {
-    if (type === 'breakfast') setBreakfast([...breakfast, recipe]);
-    if (type === 'lunch') setLunch([...lunch, recipe]);
-    if (type === 'dinner') setDinner([...dinner, recipe]);
+  const handleAddRecipe = (type) => {
+    let name = '';
+    if (type === 'breakfast') {
+      name = `B${breakfast.length + 1}`;
+      setBreakfast([...breakfast, { name, description }]);
+    }
+    if (type === 'lunch') {
+      name = `L${lunch.length + 1}`;
+      setLunch([...lunch, { name, description }]);
+    }
+    if (type === 'dinner') {
+      name = `D${dinner.length + 1}`;
+      setDinner([...dinner, { name, description }]);
+    }
   };
 
   const handleSubmit = async () => {
@@ -24,15 +34,25 @@ const AddRecipe = () => {
       year: selectedDate.getFullYear(),
     };
 
-    const recipeData = { ...formattedDate, breakfast, lunch, dinner };
-
     try {
+      // Check if a recipe already exists for the date
+      const checkResponse = await axios.get(
+        `${backURL}/recipes/${formattedDate.date}-${formattedDate.month}-${formattedDate.year}/${formattedDate.date}-${formattedDate.month}-${formattedDate.year}`
+      );
+
+      if (checkResponse.data.length > 0) {
+        alert('Recipe for this date already exists!');
+        return;
+      }
+
+      const recipeData = { ...formattedDate, breakfast, lunch, dinner };
       const response = await axios.post(`${backURL}/recipes`, recipeData);
       console.log('Recipe added:', response.data);
     } catch (error) {
-      console.error('Error adding recipe:', error.message);
+      console.error('Error:', error.message);
     }
   };
+
 
   return (
     <div>
@@ -42,15 +62,15 @@ const AddRecipe = () => {
         <h3>Breakfast</h3>
         <input
           type="text"
-          placeholder="Dish Name"
+          placeholder="Breakfast Description"
           onChange={(e) => setDescription(e.target.value)}
         />
-        <button onClick={() => handleAddRecipe('breakfast', { name: 'Dish', description })}>
-          Add Breakfast
-        </button>
+        <button onClick={() => handleAddRecipe('breakfast')}>Add Breakfast</button>
         <ul>
           {breakfast.map((item, index) => (
-            <li key={index}>{item.name} - {item.description}</li>
+            <li key={index}>
+              {item.name} - {item.description}
+            </li>
           ))}
         </ul>
       </div>
@@ -58,15 +78,15 @@ const AddRecipe = () => {
         <h3>Lunch</h3>
         <input
           type="text"
-          placeholder="Dish Name"
+          placeholder="Lunch Description"
           onChange={(e) => setDescription(e.target.value)}
         />
-        <button onClick={() => handleAddRecipe('lunch', { name: 'Dish', description })}>
-          Add Lunch
-        </button>
+        <button onClick={() => handleAddRecipe('lunch')}>Add Lunch</button>
         <ul>
           {lunch.map((item, index) => (
-            <li key={index}>{item.name} - {item.description}</li>
+            <li key={index}>
+              {item.name} - {item.description}
+            </li>
           ))}
         </ul>
       </div>
@@ -74,15 +94,15 @@ const AddRecipe = () => {
         <h3>Dinner</h3>
         <input
           type="text"
-          placeholder="Dish Name"
+          placeholder="Dinner Description"
           onChange={(e) => setDescription(e.target.value)}
         />
-        <button onClick={() => handleAddRecipe('dinner', { name: 'Dish', description })}>
-          Add Dinner
-        </button>
+        <button onClick={() => handleAddRecipe('dinner')}>Add Dinner</button>
         <ul>
           {dinner.map((item, index) => (
-            <li key={index}>{item.name} - {item.description}</li>
+            <li key={index}>
+              {item.name} - {item.description}
+            </li>
           ))}
         </ul>
       </div>
