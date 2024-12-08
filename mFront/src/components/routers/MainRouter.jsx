@@ -25,7 +25,6 @@ export const MainRouter = createBrowserRouter([
       {
         path: '/calendar',
         element: <PrivateRouter><Calendar /></PrivateRouter>
-        // element: <Calendar />
       },
       {
         path: '/login',
@@ -44,7 +43,9 @@ export const MainRouter = createBrowserRouter([
 
       {
         path: '/membersInfo',
-        element: <MembersInfo />
+        element: <RoleBasedPrivateRouter allowedRoles={['gm']}>
+          <MembersInfo />
+        </RoleBasedPrivateRouter>
       },
       {
         path: '/addRecipe',

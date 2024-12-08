@@ -1,8 +1,11 @@
-import { useState, useEffect } from 'react';
-import { backURL } from '../../lib/constants';
-import { Link } from 'react-router-dom';
-import UpdateMeal from '../meals/updateMeals/UpdateMeal.jsx';
 
+
+
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+
+const backURL = 'http://localhost:5000/api'; // Replace with your backend URL
 
 const MembersList = () => {
   const [members, setMembers] = useState([]);
@@ -12,24 +15,127 @@ const MembersList = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  // State for managing the modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editMemberData, setEditMemberData] = useState({
+    _id: '',
+    name: '',
+    email: '',
+    phone: '',
+    role: ''
+  });
+
+  // API call to fetch members
+  // const fetchMembers = async () => {
+  //   setLoading(true);
+  //   setError('');
+  //   try {
+  //     const response = await axios.get(`${backURL}/members`, {
+  //       params: { page, limit },
+  //     });
+  //     setMembers(response.data.members);
+  //     setTotal(response.data.total);
+  //   } catch (error) {
+  //     setError(error.response?.data?.message || 'Failed to fetch members.');
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+  // API call to fetch members
   const fetchMembers = async () => {
     setLoading(true);
     setError('');
-
     try {
-      const response = await fetch(`${backURL}/members?page=${page}&limit=${limit}`);
-      if (response.ok) {
-        const data = await response.json();
-        setMembers(data.members);
-        setTotal(data.total);
-      } else {
-        const errorData = await response.json();
-        setError(errorData.error || 'Failed to fetch members.');
-      }
-    } catch (err) {
-      setError('An error occurred while fetching members.');
+      const response = await axios.get(`${backURL}/members`, {
+        params: { page, limit },
+      });
+
+      // Sorting members by role
+      const sortedMembers = response.data.members.sort((a, b) => {
+        const roleOrder = {
+          gm: 1,
+          agm: 2,
+          member: 3
+        };
+
+        return roleOrder[a.role] - roleOrder[b.role];
+      });
+
+      setMembers(sortedMembers);
+      setTotal(response.data.total);
+    } catch (error) {
+      setError(error.response?.data?.message || 'Failed to fetch members.');
     } finally {
       setLoading(false);
+    }
+  };
+
+
+  // API call to update a member
+  const updateMember = async (id, updatedData) => {
+    try {
+      const response = await axios.put(`${backURL}/members/${id}`, updatedData);
+      return response.data;
+    } catch (error) {
+      console.error('Error updating member:', error.message);
+      throw error;
+    }
+  };
+
+  // API call to delete a member
+  const deleteMember = async (id) => {
+    try {
+      const response = await axios.delete(`${backURL}/members/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error deleting member:', error.message);
+      throw error;
+    }
+  };
+
+  // Handle update operation
+  const handleUpdate = (member) => {
+    setEditMemberData({
+      _id: member._id,
+      name: member.name,
+      email: member.email,
+      phone: member.phone,
+      role: member.role,
+    });
+    setIsModalOpen(true);
+  };
+
+  // Handle form submission to update member
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await updateMember(editMemberData._id, editMemberData);
+      fetchMembers(); // Refresh member list
+      setIsModalOpen(false); // Close modal after updating
+    } catch (error) {
+      alert('Failed to update member. Ensure the format is correct.');
+    }
+  };
+
+  // Handle change in input fields
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditMemberData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  // Handle delete operation
+  const handleDelete = async () => {
+    if (!window.confirm('Are you sure you want to delete this member?')) return;
+
+    try {
+      await deleteMember(editMemberData._id);
+      fetchMembers(); // Refresh member list after deletion
+      setIsModalOpen(false); // Close modal after deletion
+    } catch (error) {
+      alert('Failed to delete member');
     }
   };
 
@@ -47,10 +153,11 @@ const MembersList = () => {
 
   return (
     <div className="w-96 mx-auto mt-20">
-      <div className=" flex justify-between">
+      <div className="flex justify-between">
         <h2 className="text-center p-4 font-extrabold text-xl">Members List</h2>
-        <Link to='/addMember'><div className="btn">Add</div></Link>
-        
+        <Link to="/addMember">
+          <div className="btn">Add</div>
+        </Link>
       </div>
 
       {loading && <p>Loading...</p>}
@@ -60,28 +167,42 @@ const MembersList = () => {
         <>
           <div className="overflow-x-auto min-w-96">
             <table className="table table-fixed w-full">
-              {/* head */}
               <thead>
                 <tr>
                   <th>SL</th>
                   <th>Name</th>
                   <th>Contact</th>
-                  <th className='text-center'>Role</th>
+                  <th>Role</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
             </table>
           </div>
 
           {members.map((member, idx) => (
-            <div key={idx} className="overflow-x-auto cursor-pointer">
+            <div key={idx} className="overflow-x-auto">
               <table className="table table-fixed w-full">
                 <tbody>
-                  {/* row 1 */}
                   <tr className="hover text-left">
-                    <th className="w-1/12 ">{idx + 1}</th>
-                    <td className="w-1/12">{member.name}</td>
-                    <td className="w-1/12">{member.phone}</td>
-                    <td className="w-1/12 text-center"> {member?.role ? member.role.toUpperCase() : "Member"}</td>
+                    <th className="w-1/12">{idx + 1}</th>
+                    <td className="w-2/12">{member.name}</td>
+                    <td className="w-3/12">{member.phone}</td>
+                    <td className="w-2/12">{member.role.toUpperCase()}</td>
+                    <td className="w-4/12 flex ">
+                      <button
+                        className="btn btn-xs btn-info mx-1"
+                        onClick={() => handleUpdate(member)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleDelete}
+                        className="btn btn-xs btn-info mx-1"
+                      >
+                        Delete
+                      </button>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -108,12 +229,82 @@ const MembersList = () => {
             </button>
           </div>
         </>
-      )
-      }
+      )}
 
+      {/* Modal for updating or deleting member */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-4 rounded-lg w-96">
+            <h3 className="font-bold text-xl mb-4">Edit Member</h3>
+            <form onSubmit={handleFormSubmit}>
+              <div className="mb-4">
+                <label className="block mb-2">Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={editMemberData.name}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 rounded"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block mb-2">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={editMemberData.email}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 rounded"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block mb-2">Phone</label>
+                <input
+                  type="text"
+                  name="phone"
+                  value={editMemberData.phone}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 rounded"
+                />
+              </div>
+              {/* <div className="mb-4">
+                <label className="block mb-2">Role</label>
+                <input
+                  type="text"
+                  name="role"
+                  value={editMemberData.role}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 rounded"
+                />
+              </div> */}
+              <div className="mb-4">
+                <label className="block mb-2">Role</label>
+                <select
+                  name="role"
+                  value={editMemberData.role}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 rounded"
+                >
+                  <option value="member">Member</option>
+                  <option value="agm">AGM</option>
+                </select>
+              </div>
 
-      <UpdateMeal/>
-    </div >
+              <div className="flex justify-between">
+                <button type="submit" className="btn btn-primary">Update</button>
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(false)}
+                  className="btn btn-secondary ml-2"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 

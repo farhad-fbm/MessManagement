@@ -1,12 +1,10 @@
-// controllers/memberController.js
-
 const Member = require('../models/member');
 
 // Add a new member
 const addMember = async (req, res) => {
-  const { name, email, phone,password } = req.body;
+  const { name, email, phone, password } = req.body;
   try {
-    const newMember = new Member({ name, email, phone,password });
+    const newMember = new Member({ name, email, phone, password });
     await newMember.save();
     res.status(201).json(newMember);
   } catch (error) {
@@ -28,16 +26,37 @@ const getAllMembers = async (req, res) => {
   }
 };
 
-
-// Delete a member
-const deleteMember = async (req, res) => {
+// Update member
+const updateMember = async (req, res) => {
+  const { id } = req.params;
+  const { name, email, phone, role } = req.body;
   try {
-    const member = await Member.findByIdAndDelete(req.params.id);
-    if (!member) return res.status(404).json({ error: 'Member not found' });
-    res.status(200).json({ message: 'Member deleted successfully' });
+    const updatedMember = await Member.findByIdAndUpdate(
+      id,
+      { name, email, phone, role },
+      { new: true, runValidators: true } // Return the updated member
+    );
+    if (!updatedMember) {
+      return res.status(404).json({ error: 'Member not found' });
+    }
+    res.status(200).json({ message: 'Member updated successfully', member: updatedMember });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: 'Failed to update member', details: error.message });
   }
 };
 
-module.exports = { addMember, getAllMembers, deleteMember };
+// Delete member
+const deleteMember = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deletedMember = await Member.findByIdAndDelete(id);
+    if (!deletedMember) {
+      return res.status(404).json({ error: 'Member not found' });
+    }
+    res.status(200).json({ message: 'Member deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to delete member', details: error.message });
+  }
+};
+
+module.exports = { addMember, getAllMembers, updateMember, deleteMember };
