@@ -16,7 +16,7 @@ const AddMember = () => {
     const newMember = { name, email, phone, password };
 
     try {
-      const response = await fetch(`${backURL}/api/members`, {
+      const response = await fetch(`${backURL}/members`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

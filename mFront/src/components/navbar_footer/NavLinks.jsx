@@ -10,6 +10,7 @@ export const NavLinks = () => {
     { name: 'Calendar', link: '/calendar' },
     {name: 'Dashboard', link: '/dashboard'},
     { name: 'Members', link: '/membersInfo' },
+    { name: 'Recipes', link: '/addRecipe' },
   ]
   return (
     <>

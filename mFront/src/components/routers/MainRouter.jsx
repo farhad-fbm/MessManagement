@@ -8,6 +8,7 @@ import { PrivateRouter } from "./PrivateRouter";
 import { Dasboard } from "../dashboard/Dasboard.jsx";
 import AddMember from './../members/AddMember';
 import { MembersInfo } from "../members/MembersInfo.jsx";
+import AddRecipe from "../recipes/AddRecipe.jsx";
 
 export const MainRouter = createBrowserRouter([
   {
@@ -21,8 +22,8 @@ export const MainRouter = createBrowserRouter([
       },
       {
         path: '/calendar',
-        // element: <PrivateRouter><Calendar /></PrivateRouter>
-        element: <Calendar />
+        element: <PrivateRouter><Calendar /></PrivateRouter>
+        // element: <Calendar />
       },
       {
         path: '/login',
@@ -39,6 +40,10 @@ export const MainRouter = createBrowserRouter([
       {
         path: '/membersInfo',
         element: <MembersInfo />
+      },
+      {
+        path: '/addRecipe',
+        element: <AddRecipe />
       },
     ]
   }
