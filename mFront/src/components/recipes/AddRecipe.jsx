@@ -37,10 +37,10 @@ const AddRecipe = () => {
     try {
       // Check if a recipe already exists for the date
       const checkResponse = await axios.get(
-        `${backURL}/recipes/${formattedDate.date}-${formattedDate.month}-${formattedDate.year}/${formattedDate.date}-${formattedDate.month}-${formattedDate.year}`
+        `${backURL}/recipes/${formattedDate.date}/${formattedDate.month}/${formattedDate.year}`
       );
 
-      if (checkResponse.data.length > 0) {
+      if (checkResponse.data) {
         alert('Recipe for this date already exists!');
         return;
       }
@@ -49,9 +49,17 @@ const AddRecipe = () => {
       const response = await axios.post(`${backURL}/recipes`, recipeData);
       console.log('Recipe added:', response.data);
     } catch (error) {
-      console.error('Error:', error.message);
+      if (error.response && error.response.status === 404) {
+        // If no recipe exists, proceed with adding
+        const recipeData = { ...formattedDate, breakfast, lunch, dinner };
+        const response = await axios.post(`${backURL}/recipes`, recipeData);
+        console.log('Recipe added:', response.data);
+      } else {
+        console.error('Error:', error.message);
+      }
     }
   };
+
 
 
   return (

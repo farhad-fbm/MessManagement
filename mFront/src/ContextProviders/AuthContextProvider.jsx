@@ -1,47 +1,56 @@
-/* eslint-disable react/prop-types */
-import { createContext, useEffect, useState } from "react"
-import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
-
-
-import { auth } from "../firebase/firebase.init";
+import { createContext, useState, useEffect } from 'react';
+import axios from 'axios';
 
 export const AuthContext = createContext();
+
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState('');
-  const [loading, setLoading] = useState(true);
-  const googleProvider = new GoogleAuthProvider();
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
 
+  // Login function modified to include role
+  const login = async (name, password) => {
+    setLoading(true);
+    try {
+      const response = await axios.post('http://localhost:5000/api/auth/login', { name, password });
+      const { token, member } = response.data;
 
+      localStorage.setItem('authToken', token);
+      localStorage.setItem('userInfo', JSON.stringify(member)); // Save user info to localStorage
+      setUser(member);
+      setLoading(false);
+    } catch (error) {
+      console.error('Login failed:', error.response?.data?.message || error.message);
+      setLoading(false);
+      throw error;
+    }
+  };
 
-  const createUser = (email, password) => {
-    setLoading(true);
-    return createUserWithEmailAndPassword(auth, email, password);
+  const logout = () => {
+    localStorage.removeItem('authToken'); // Clear authentication token
+    localStorage.removeItem('userInfo'); // Clear user info
+    setUser(null); // Reset user state
   };
-  const logInUser = (email, password) => {
-    setLoading(true);
-    return signInWithEmailAndPassword(auth, email, password);
-  };
-  const googleLogIn = () => {
-    setLoading(true);
-    return signInWithPopup(auth, googleProvider);
-  };
-  const logOut = () => {
-    return signOut(auth);
+
+  // Check if user is authenticated and set the user state
+  const checkAuth = () => {
+    const token = localStorage.getItem('authToken');
+    const savedUserInfo = localStorage.getItem('userInfo');
+
+    if (token && savedUserInfo) {
+      const parsedUserInfo = JSON.parse(savedUserInfo); // Parse user info from localStorage
+      setUser(parsedUserInfo);
+    }
   };
 
   useEffect(() => {
-    const unSubscribe = onAuthStateChanged(auth, currentUser => {
-      setLoading(false);
-      setUser(currentUser);
-    })
-    return () => unSubscribe();
+    checkAuth(); // Check authentication on app mount
   }, []);
 
+  const authInfo = { user, loading, login, logout };
 
-  const authInfo = { loading, user, createUser, logInUser, googleLogIn, logOut }
   return (
     <AuthContext.Provider value={authInfo}>
       {children}
     </AuthContext.Provider>
-  )
-}
+  );
+};

@@ -17,7 +17,8 @@ export const Home = () => {
         <DayCard />
         <MealInfo />
       </div>
-      <DailyMeals />
+      {/* next   previous */}
+      <DailyMeals />  
 
       <GetRecipe/>
     </div>

@@ -1,6 +1,5 @@
 
 import { useState } from 'react';
-import { HomeClock } from './../home/homeClock/HomeClock';
 import { bazarDate, userMess } from './../../lib/constants';
 import { Modal } from './modal/Modal';
 

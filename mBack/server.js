@@ -8,6 +8,7 @@ const memberRoutes = require('./routes/memberRoutes');
 const mealRoutes = require('./routes/mealRoutes');
 // const bazarRoutes = require('./routes/bazarRoutes');
 const recipeRoutes = require('./routes/recipeRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 dotenv.config();
 connectDB();
@@ -22,6 +23,7 @@ app.use('/api/members', memberRoutes);
 app.use('/api/dailymeals', mealRoutes);
 // app.use('/api/dailybazars', bazarRoutes);
 app.use('/api/recipes', recipeRoutes);
+app.use('/api/auth', authRoutes);
 
 
 

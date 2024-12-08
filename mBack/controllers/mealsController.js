@@ -1,6 +1,6 @@
 // mealsController.js
 
-const Meal = require('../models/dailyMeal'); 
+const Meal = require('../models/dailyMeal');
 
 
 exports.getDailyAllUsersTotal = async (req, res) => {
@@ -99,8 +99,6 @@ exports.getDailyAllMembersMeal = async (req, res) => {
   const { date, month, year } = req.params;
 
   try {
-    console.log(`Fetching meal data for: ${date}/${month}/${year}`);
-
     const meals = await Meal.find({ date, month, year }); // Fetch data for the given day
     const result = meals.map((meal) => ({
       memberName: meal.memberName,
@@ -108,7 +106,6 @@ exports.getDailyAllMembersMeal = async (req, res) => {
       lunch: meal.lunch,
       dinner: meal.dinner,
     }));
-    console.log('Meals fetched:', result);
 
     res.status(200).json(result); // Return the array of objects
   } catch (error) {

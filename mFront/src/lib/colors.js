@@ -12,7 +12,7 @@ const colors = {
 
   text1: "#3C3D37", // Dark Gray
   text2: "#4b5563", // Medium Gray
-  text3: "#",
+  text3: "#FFFFFF",
   text: "#",
 
 
