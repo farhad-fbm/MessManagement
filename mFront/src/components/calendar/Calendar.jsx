@@ -1,7 +1,8 @@
 
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { bazarDate, userMess } from './../../lib/constants';
 import { Modal } from './modal/Modal';
+import { DateContext } from '../../ContextProviders/DateContextProvider';
 
 const getDaysInMonth = (year, month) => {
   return new Array(new Date(year, month, 0).getDate())
@@ -15,8 +16,7 @@ const TD = new Date();
 const today = `${TD.getFullYear()}-${TD.getMonth() + 1}-${TD.getDate()}`
 
 export const Calendar = () => {
-  const [currentYear, setCurrentYear] = useState(TD.getFullYear());
-  const [currentMonth, setCurrentMonth] = useState(TD.getMonth() + 1);
+  const {setCurrentDate,currentMonth,setCurrentMonth,currentYear,setCurrentYear}=useContext(DateContext);
   const [selectedDate, setSelectedDate] = useState(today);
 
   const daysInMonth = getDaysInMonth(currentYear, currentMonth);
@@ -58,8 +58,11 @@ export const Calendar = () => {
     const isFutureDate = clickedDate > now;
 
     // Only open the modal if it's before 6 PM and the clicked day is after today
-    if ((isToday && now.getHours() < 18) || isFutureDate) {
+    if ((isToday - 1 && now.getHours() < 18) || isFutureDate) {
       setSelectedDate(dateStr);
+      setCurrentDate(dateStr.split('-')[2]);
+      console.log(dateStr);
+      
       openModal();
     } else {
       // Set the alert message and open the alert modal

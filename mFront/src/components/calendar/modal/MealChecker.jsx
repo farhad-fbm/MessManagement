@@ -1,61 +1,94 @@
-import { useState } from 'react';
+
+import { useContext, useState } from 'react';
+import axios from 'axios';
+import { DateContext } from '../../../ContextProviders/DateContextProvider';
+import { AuthContext } from '../../../ContextProviders/AuthContextProvider';
+import { backURL } from '../../../lib/constants';
 
 const MealChecker = () => {
-  const [meals, setMeals] = useState({
-    breakfast: false,
-    lunch: false,
-    dinner: false,
+  const { currentDate, currentMonth, currentYear } = useContext(DateContext);
+  const { user } = useContext(AuthContext);
+  const [mealInfo, setMealInfo] = useState({
+    date: currentDate,
+    month: currentMonth,
+    year: currentYear,
+    membername: user?.name,
+    breakfast: 1,
+    lunch: 1,
+    dinner: 1,
   });
 
+
   const handleChange = (e) => {
-    const { name, checked } = e.target;
-    setMeals((prevMeals) => ({
-      ...prevMeals,
-      [name]: checked,
+    const { name, value } = e.target;
+    setMealInfo((prevInfo) => ({
+      ...prevInfo,
+      [name]: value ? parseInt(value) : value,  // Convert to integer for meals, leave as string for others
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Selected Meals:", meals);
+
+    try {
+      // Make the PUT request using Axios
+      console.log(mealInfo);
+      const response = await axios.put(
+        `${backURL}/dailymeals/updateMeal/${mealInfo.date}/${mealInfo.month}/${mealInfo.year}/${mealInfo.membername}`,
+        {
+          breakfast: mealInfo.breakfast,
+          lunch: mealInfo.lunch,
+          dinner: mealInfo.dinner,
+        }
+      );
+
+      // Handle success
+      console.log('Meal updated successfully:', response.data);
+    } catch (error) {
+      // Handle error
+      console.error('Error updating meal:', error);
+    }
   };
 
   return (
     <form onSubmit={handleSubmit} className="p-4 max-w-sm mx-auto">
       <div className="flex items-center mb-2">
+        <label htmlFor="breakfast" className="text-lg mr-2">Breakfast:</label>
         <input
-          type="checkbox"
+          type="number"
           id="breakfast"
           name="breakfast"
-          checked={meals.breakfast}
+          value={mealInfo.breakfast}
           onChange={handleChange}
-          className="mr-2"
+          className="border px-2 py-1 rounded w-24"
+          min="0"
         />
-        <label htmlFor="breakfast" className="text-lg">Breakfast</label>
       </div>
 
       <div className="flex items-center mb-2">
+        <label htmlFor="lunch" className="text-lg mr-2">Lunch:</label>
         <input
-          type="checkbox"
+          type="number"
           id="lunch"
           name="lunch"
-          checked={meals.lunch}
+          value={mealInfo.lunch}
           onChange={handleChange}
-          className="mr-2"
+          className="border px-2 py-1 rounded w-24"
+          min="0"
         />
-        <label htmlFor="lunch" className="text-lg">Lunch</label>
       </div>
 
       <div className="flex items-center mb-2">
+        <label htmlFor="dinner" className="text-lg mr-2">Dinner:</label>
         <input
-          type="checkbox"
+          type="number"
           id="dinner"
           name="dinner"
-          checked={meals.dinner}
+          value={mealInfo.dinner}
           onChange={handleChange}
-          className="mr-2"
+          className="border px-2 py-1 rounded w-24"
+          min="0"
         />
-        <label htmlFor="dinner" className="text-lg">Dinner</label>
       </div>
 
       <button
@@ -69,3 +102,4 @@ const MealChecker = () => {
 };
 
 export default MealChecker;
+

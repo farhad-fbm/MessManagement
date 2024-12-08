@@ -20,6 +20,7 @@ const MealDropdown = ({ id, mealData, total, isOpen, onClick }) => {
   // ______________________________________________________________
 
   return (
+  
     <div ref={dropdownRef} className="relative inline-block mr-4 font-extrabold">
       <button
         className={`py-1 px-2 rounded inline-flex items-center ${isOpen ? 'bg-[#AAB396] text-white' : 'bg-[#FFF8E8] text-gray-700'}`}
@@ -29,14 +30,14 @@ const MealDropdown = ({ id, mealData, total, isOpen, onClick }) => {
       </button>
       {isOpen && (
         <div
-          className="fixed inset-0 flex items-center justify-center ml-6 -mt-2 bg-black bg-opacity-50"
+          className="fixed inset-0 flex items-center justify-center ml-6 -mt-2 bg-black bg-opacity-50 z-50"
         >
-          <div className="bg-[#EEEDEB] text-[#2F3645]  rounded-xl shadow-lg w-48">
+          <div className="bg-[#EEEDEB] text-[#2F3645] rounded-xl shadow-lg w-48 z-50">
             <div className="text-2xl font-extrabold text-black px-2 pb-2">
               {id === 'M' ? "Morning" : id === "L" ? "Lunch" : "Dinner"}-{total}
             </div>
             {mealData.map((data, idx) => (
-              <div key={idx} className="px-4 py-1  flex justify-between gap-2 border rounded-xl border-gray-300">
+              <div key={idx} className="px-4 py-1 flex justify-between gap-2 border rounded-xl border-gray-300">
                 <p>{data.name} :</p>
                 <p>{data.num}</p>
               </div>
@@ -45,6 +46,7 @@ const MealDropdown = ({ id, mealData, total, isOpen, onClick }) => {
         </div>
       )}
     </div>
+
   );
 };
 
@@ -60,9 +62,10 @@ const MealDropdown = ({ id, mealData, total, isOpen, onClick }) => {
 
 const DropDownContainer = () => {
   const { todayMeals } = useContext(MealContext);
+console.log(todayMeals);
 
 
-  const breakfast = todayMeals.map((member) => ({
+  const breakfast = todayMeals.map((member) => ({    
     name: member.memberName,
     num: member.breakfast,
   }));

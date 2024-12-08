@@ -41,7 +41,7 @@ export const Navbar = () => {
       {
         user ?
           <div className="flex space-x-6">
-            <p className='text-2xl hidden md:block'>{user.displayName}</p>
+            <p className='text-2xl hidden md:block'>{user?.name} <sub> {user?.role?.toUpperCase()}</sub></p>
             <div className="dropdown dropdown-end ">
               <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                 <div className='w-11 '>

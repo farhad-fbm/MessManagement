@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -60,61 +61,93 @@ const AddRecipe = () => {
     }
   };
 
-
-
   return (
-    <div>
-      <h2>Add Daily Recipes</h2>
-      <DatePicker selected={selectedDate} onChange={(date) => setSelectedDate(date)} />
-      <div>
-        <h3>Breakfast</h3>
+    <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+      <h2 className="text-2xl font-semibold text-center mb-6">Add Daily Recipes</h2>
+      <div className="mb-4">
+        <label htmlFor="date" className="block text-sm font-medium text-gray-700">Select Date</label>
+        <DatePicker
+          selected={selectedDate}
+          onChange={(date) => setSelectedDate(date)}
+          className="mt-2 w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      <div className="mb-6">
+        <h3 className="text-lg font-medium mb-2">Breakfast</h3>
         <input
           type="text"
           placeholder="Breakfast Description"
           onChange={(e) => setDescription(e.target.value)}
+          className="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <button onClick={() => handleAddRecipe('breakfast')}>Add Breakfast</button>
-        <ul>
+        <button
+          onClick={() => handleAddRecipe('breakfast')}
+          className="w-full p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none"
+        >
+          Add Breakfast
+        </button>
+        <ul className="mt-2">
           {breakfast.map((item, index) => (
-            <li key={index}>
+            <li key={index} className="text-gray-700">
               {item.name} - {item.description}
             </li>
           ))}
         </ul>
       </div>
-      <div>
-        <h3>Lunch</h3>
+
+      <div className="mb-6">
+        <h3 className="text-lg font-medium mb-2">Lunch</h3>
         <input
           type="text"
           placeholder="Lunch Description"
           onChange={(e) => setDescription(e.target.value)}
+          className="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <button onClick={() => handleAddRecipe('lunch')}>Add Lunch</button>
-        <ul>
+        <button
+          onClick={() => handleAddRecipe('lunch')}
+          className="w-full p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none"
+        >
+          Add Lunch
+        </button>
+        <ul className="mt-2">
           {lunch.map((item, index) => (
-            <li key={index}>
+            <li key={index} className="text-gray-700">
               {item.name} - {item.description}
             </li>
           ))}
         </ul>
       </div>
-      <div>
-        <h3>Dinner</h3>
+
+      <div className="mb-6">
+        <h3 className="text-lg font-medium mb-2">Dinner</h3>
         <input
           type="text"
           placeholder="Dinner Description"
           onChange={(e) => setDescription(e.target.value)}
+          className="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <button onClick={() => handleAddRecipe('dinner')}>Add Dinner</button>
-        <ul>
+        <button
+          onClick={() => handleAddRecipe('dinner')}
+          className="w-full p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none"
+        >
+          Add Dinner
+        </button>
+        <ul className="mt-2">
           {dinner.map((item, index) => (
-            <li key={index}>
+            <li key={index} className="text-gray-700">
               {item.name} - {item.description}
             </li>
           ))}
         </ul>
       </div>
-      <button onClick={handleSubmit}>Submit Recipes</button>
+
+      <button
+        onClick={handleSubmit}
+        className="w-full p-3 bg-green-500 text-white rounded-lg hover:bg-green-600 focus:outline-none"
+      >
+        Submit Recipes
+      </button>
     </div>
   );
 };

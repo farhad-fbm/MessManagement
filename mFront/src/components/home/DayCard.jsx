@@ -6,7 +6,7 @@ import { DateContext } from "../../ContextProviders/DateContextProvider";
 
 export const DayCard = () => {
   const { homeDate, homeMonth, homeYear } = useContext(DateContext);
-  const currentDate = new Date(homeYear, homeYear - 1, homeDate);
+  const currentDate = new Date(homeYear, homeMonth - 1, homeDate);
   const homeDayName = currentDate.toLocaleString('en-US', { weekday: 'long' });
   const homeMonthName = currentDate.toLocaleString('en-US', { month: 'long' });
   
