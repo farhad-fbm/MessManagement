@@ -18,8 +18,8 @@ app.use(express.json());
 
 // Routes
 app.use('/api/members', memberRoutes);
-app.use('/api/meals', mealRoutes);
-// app.use('/api/bazar', bazarRoutes);
+app.use('/api/dailymeals', mealRoutes);
+// app.use('/api/dailybazars', bazarRoutes);
 
 
 // console.log(memberRoutes); // Should output the router functions

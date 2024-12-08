@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { backURL } from '../../lib/constants';
 import { Link } from 'react-router-dom';
+import UpdateMeal from '../meals/updateMeals/UpdateMeal.jsx';
 
 
 const MembersList = () => {
@@ -109,6 +110,9 @@ const MembersList = () => {
         </>
       )
       }
+
+
+      <UpdateMeal/>
     </div >
   );
 };

@@ -1,4 +1,5 @@
-// models/DailyMeal.js
+// models/dailyMeal.js
+
 const mongoose = require('mongoose');
 
 const dailyMealsSchema = new mongoose.Schema({
