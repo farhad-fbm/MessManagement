@@ -50,7 +50,7 @@ const Login = () => {
                   required
                 />
               </div>
-              <div className="form-control">
+              {/* <div className="form-control">
                 <p className="p-2">Email</p>
                 <input
                   onChange={e => setEmail(e.target.value)}
@@ -60,7 +60,7 @@ const Login = () => {
                   className="input input-bordered"
                 // required
                 />
-              </div>
+              </div> */}
               <div className="form-control">
                 <p className="p-2">Password</p>
                 <input

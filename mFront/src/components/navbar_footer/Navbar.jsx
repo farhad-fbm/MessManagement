@@ -4,6 +4,7 @@ import { AuthContext } from "../../ContextProviders/AuthContextProvider";
 import { useContext } from "react";
 import { toast } from "react-toastify";
 import { FaCircleUser } from "react-icons/fa6";
+import { RxModulzLogo } from "react-icons/rx";
 
 
 export const Navbar = () => {
@@ -35,8 +36,8 @@ export const Navbar = () => {
 
  
   return (
-    <nav className="max-w-4xl mx-auto flex justify-between pt-6 px-2 gap-x-16">
-      <div className="">LoGo</div>
+    <nav className="max-w-4xl mx-auto flex justify-between pt-6 px-2 gap-x-16 bg-slate-200 rounded-lg font-bold">
+      <div className="text-4xl"><RxModulzLogo/></div>
       <div className="flex justify-center gap-x-4"><NavLinks /></div>
       {
         user ?
@@ -45,7 +46,7 @@ export const Navbar = () => {
             <div className="dropdown dropdown-end ">
               <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                 <div className='w-11 '>
-                  <img className='rounded-full' src={user.photoURL} alt="" />
+                  <img className='rounded-full bg-slate-500' src={user?.photoURL} alt="" />
                 </div>
               </label>
               <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 text-black rounded-box w-32">

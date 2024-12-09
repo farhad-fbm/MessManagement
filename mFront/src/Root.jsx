@@ -8,9 +8,10 @@ export const Root = () => {
 
   return (
     <div className=''>
-      <Navbar />
+      <div className="w-full bg-slate-200"><Navbar /></div>
+      
       <div className="max-w-4xl mx-auto"> <Outlet /></div>
-      {/* <div className="absolute bottom-0 w-full"><Footer /></div> */}
+      <div className="w-full"><Footer /></div>
     </div>
   )
 }

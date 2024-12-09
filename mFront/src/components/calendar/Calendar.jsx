@@ -112,13 +112,13 @@ export const Calendar = () => {
                 <p className="font-extrabold text-2xl">{day}</p>
 
                 {/* Bazar date or manager for specific days */}
-                <div className={`font-bold text-[#001F3F] text-sm ${((day <= 15 && bazarDate[day - 1] === userMess) || (day > 15 && bazarDate[day - 15 - 1] === userMess)) ? 'bg-red-600 p-1 rounded-3xl' : ''}`}>
+                {/* <div className={`font-bold text-[#001F3F] text-sm ${((day <= 15 && bazarDate[day - 1] === userMess) || (day > 15 && bazarDate[day - 15 - 1] === userMess)) ? 'bg-red-600 p-1 rounded-3xl' : ''}`}>
                   {day === 31 ? ("") :
                     (
                       (day <= 15 && bazarDate[day - 1] === userMess) ? <p>Bazar</p> :
                         (day > 15 && bazarDate[day - 15 - 1] === userMess) ? <p>Bazar</p> : null
                     )}
-                </div>
+                </div> */}
 
 
                 {/* User meals */}
@@ -131,7 +131,7 @@ export const Calendar = () => {
         </div>
         <div className="flex justify-center items-center mt-4">
           <button
-            className="px-4 py-2 bg-[#30372e] font-extrabold rounded-lg"
+            className="px-4 py-2 bg-slate-300 font-extrabold rounded-lg"
             onClick={handleGoToToday}
           >
             Go to Today

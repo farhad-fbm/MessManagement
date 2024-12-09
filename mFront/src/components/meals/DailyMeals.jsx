@@ -43,9 +43,9 @@ const DailyMeals = () => {
 
   return (
 
-    <div className='flex w-96 mx-auto justify-evenly text-xl font-semibold'>
-      <button onClick={previousDay}>Prev</button>
-      <button onClick={nextDay}>Next</button>
+    <div className='flex w-96 mx-auto justify-evenly text-xl font-bold py-4'>
+      <button onClick={previousDay} className='bg-slate-200 p-4 rounded-xl'>Prev</button>
+      <button onClick={nextDay} className='bg-slate-200 p-4 rounded-xl'>Next</button>
     </div>
 
   );

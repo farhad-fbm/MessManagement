@@ -2,56 +2,6 @@
 
 const Meal = require('../models/dailyMeal');
 
-
-exports.getDailyAllUsersTotal = async (req, res) => {
-  const { date, month, year } = req.params;
-
-  try {
-    const meals = await Meal.aggregate([
-      { $match: { date: parseInt(date), month: parseInt(month), year: parseInt(year) } },
-      {
-        $group: {
-          _id: null,
-          totalBreakfast: { $sum: "$breakfast" },
-          totalLunch: { $sum: "$lunch" },
-          totalDinner: { $sum: "$dinner" },
-        }
-      }
-    ]);
-
-    res.status(200).json(meals[0] || { totalBreakfast: 0, totalLunch: 0, totalDinner: 0 });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-
-exports.getMonthlyAllUsersTotal = async (req, res) => {
-  const { month, year } = req.params;
-
-  try {
-    const meals = await Meal.aggregate([
-      { $match: { month: parseInt(month), year: parseInt(year) } },
-      {
-        $group: {
-          _id: null,
-          totalBreakfast: { $sum: "$breakfast" },
-          totalLunch: { $sum: "$lunch" },
-          totalDinner: { $sum: "$dinner" },
-        }
-      }
-    ]);
-
-    res.status(200).json(meals[0] || { totalBreakfast: 0, totalLunch: 0, totalDinner: 0 });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-
-
-
-
 exports.getDailyAllMembersMeal = async (req, res) => {
   const { date, month, year } = req.params;
 
@@ -63,13 +13,32 @@ exports.getDailyAllMembersMeal = async (req, res) => {
       lunch: meal.lunch,
       dinner: meal.dinner,
     }));
-
+ 
     res.status(200).json(result); // Return the array of objects
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch meal data', details: error.message });
   }
 };
 
+exports.getMonthlyMemberMeals = async (req, res) => {
+  const { month, year, membername } = req.params;
+  try {
+    const meals = await Meal.find({month,year,membername});
+    const result = meals.map((meal) => ({
+      date: meal.date,
+      breakfast: meal.breakfast,
+      lunch: meal.lunch,
+      dinner: meal.dinner,
+    }));
+
+    res.status(200).json(result); // Return the array of meal records
+  } catch (error) {
+    res.status(500).json({
+      error: 'Failed to fetch monthly meal data',
+      details: error.message,
+    });
+  }
+};
 
 
 
@@ -92,6 +61,3 @@ exports.updateMeal = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-
-
-

@@ -10,7 +10,7 @@ import { MealInfo } from "./MealInfo";
 export const Home = () => {
 
   return (
-    <div className="pt-6">
+    <div className="pt-2">
       <HomeClock />
       {/* <div className="lg:grid grid-cols-[1fr_1.5fr] gap-1 px-1 pt-8 h-96" > */}
       <div>

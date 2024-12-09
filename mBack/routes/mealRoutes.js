@@ -12,4 +12,8 @@ router.get('/dailyAllMembersMeal/:date/:month/:year', mealsController.getDailyAl
 // PUT: Update meal data for a specific date and user
 router.put('/updateMeal/:date/:month/:year/:membername', mealsController.updateMeal);
 
+// Route to get monthly meal data for a specific member
+router.get('/monthlyMemberMeals/:month/:year/:membername', mealsController.getMonthlyMemberMeals);
+
+
 module.exports = router;
