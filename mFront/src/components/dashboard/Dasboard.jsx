@@ -5,11 +5,11 @@ import { backURL } from "../../lib/constants";
 
 // const MonthlyMealInfo = () => {
 export const Dasboard = () => {
-
   const { user } = useContext(AuthContext);
   const [mealData, setMealData] = useState([]);
   const [month, setMonth] = useState(new Date().getMonth() + 1);
   const [year, setYear] = useState(new Date().getFullYear());
+  const [totals, setTotals] = useState({ breakfast: 0, lunch: 0, dinner: 0 });
 
   const fetchMealData = async () => {
     try {
@@ -23,9 +23,20 @@ export const Dasboard = () => {
     }
   };
 
+  const calculateTotals = (data) => {
+    const totalBreakfast = data.reduce((sum, meal) => sum + (meal.breakfast || 0), 0);
+    const totalLunch = data.reduce((sum, meal) => sum + (meal.lunch || 0), 0);
+    const totalDinner = data.reduce((sum, meal) => sum + (meal.dinner || 0), 0);
+    setTotals({ breakfast: totalBreakfast, lunch: totalLunch, dinner: totalDinner });
+  };
+
   useEffect(() => {
     fetchMealData();
   }, [month, year]);
+
+  useEffect(() => {
+    calculateTotals(mealData);
+  }, [mealData]);
 
   const handlePrevMonth = () => {
     if (month === 1) {
@@ -64,7 +75,17 @@ export const Dasboard = () => {
           Next &rarr;
         </button>
       </div>
-      <table className="min-w-full border border-gray-300">
+
+      {/* Total Meals */}
+      <div className="mb-4 p-4 bg-gray-100 rounded-lg">
+        <h3 className="text-lg font-bold mb-2">Total Meals for {user?.name}</h3>
+        <p>Breakfast: {totals.breakfast}</p>
+        <p>Lunch: {totals.lunch}</p>
+        <p>Dinner: {totals.dinner}</p>
+      </div>
+
+      {/* Table */}
+      <table className="w-60 mx-auto border border-gray-300">
         <thead>
           <tr className="bg-gray-100">
             <th className="border px-4 py-2 text-left">Date</th>

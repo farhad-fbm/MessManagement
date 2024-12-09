@@ -12,25 +12,25 @@ export const MealInfo = () => {
 
       <div className="grid grid-cols-[1fr_1fr_1fr]  gap-1">
         <div className="bg-background3 rounded-lg md:mb-20 lg:mb-0">
-          <h3 className="font-medium text-lg text-indigo-600 text-center">Breakfast</h3>
+          <h3 className="font-extrabold text-2xl text-indigo-600 text-center">Breakfast</h3>
           {recipe?.breakfast?.map((item, index) => (
-            <li key={index} className="px-6 pt-4 text-left">
+            <li key={index} className="px-6 pt-4 text-left font-semibold">
               {item.description}
             </li>
           ))}        
         </div>
         <div className="bg-background3 text-center rounded-lg  md:mb-20 lg:mb-0">
-          <h3 className="font-medium text-lg text-purple-600">Lunch</h3>
+          <h3 className="font-extrabold text-2xl text-purple-600">Lunch</h3>
           {recipe?.lunch?.map((item, index) => (
-            <li key={index} className="px-6 pt-4 text-left">
+            <li key={index} className="px-6 pt-4 text-left font-semibold">
               {item.description}
             </li>
           ))}
         </div>
         <div className="bg-background3 text-center rounded-lg md:mb-20 lg:mb-0">
-          <h3 className="font-medium text-lg text-pink-600">Dinner</h3>
+          <h3 className="font-extrabold text-2xl text-pink-600">Dinner</h3>
           {recipe?.dinner?.map((item, index) => (
-            <li key={index} className="px-6 pt-4 text-left">
+            <li key={index} className="px-6 pt-4 text-left font-semibold">
               {item.description}
             </li>
           ))}

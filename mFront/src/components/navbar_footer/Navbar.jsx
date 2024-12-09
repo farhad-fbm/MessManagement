@@ -36,7 +36,7 @@ export const Navbar = () => {
 
  
   return (
-    <nav className="max-w-4xl mx-auto flex justify-between pt-6 px-2 gap-x-16 bg-slate-200 rounded-lg font-bold">
+    <nav className="max-w-4xl mx-auto flex justify-between pt-6 px-4 gap-x-16 bg-slate-200 rounded-lg font-bold">
       <div className="text-4xl"><RxModulzLogo/></div>
       <div className="flex justify-center gap-x-4"><NavLinks /></div>
       {
